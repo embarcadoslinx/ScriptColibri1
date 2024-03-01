@@ -1,0 +1,124 @@
+Começando, Colibri conectada sem o cabo de alimentação:
+Primeiro terminal
+[sudo minicom terminal]:
+sudo minicom
+[CONECTA cabo de alimentação na Colibri]
+bmode usb
+ 
+Próximo terminal, trocar UART ligar python
+[lsusb terminal]:
+lsusb
+cd Documents/VX.X.X/Colibri...
+./recovery-linux.sh
+cd ..
+cd eject...
+python3 -m http.server
+[TROCAR UART, posição ORIGINAL]
+ 
+VOltar para o sudominicom, pegar o IP da Colibri:
+[sudo minicom terminal]:
+enter
+ifconfig
+ex: inet addr: 192.168.3.178
+ 
+Novo terminal, instalar S.O no Toradex
+[sudo vinagre terminal]:
+sudo vinagre ip
+ 
+Dentro do Toradex, instalar o S.O
+[TORADEX]:
+http://192.168.3.149:8000/image_list.json
+Reboot
+clicar no X
+ 
+Voltar para o sudo minicom terminal
+[sudo minicom terminal]:
+[REMOVER E CONECTAR CABO DE ALIMENTAÇÃO]
+root
+vi /etc/systemd/network/wired.network
+Clica na letra "i"
+ 
+Editando os dados da Colibri dentro do vi
+[sudo minicom terminal]:
+ 
+    [Match]
+    Name=eth0
+ 
+    [Network]
+    Address=192.168.2.15/24 
+    Gateway=192.168.2.254
+    DNS=8.8.8.8
+    
+Em seguida:
+systemctl stop systemd-networkd.socket 
+systemctl stop systemd-networkd.service
+cd /
+mkdir opt
+ls
+reboot
+ 
+Novo terminal, ssh root, para conectar via rede
+[ssh root terminal]:
+ssh root@192.168.2.15
+ssh-keygen -f...
+Caso 1: Senha -> Ctrl C -> desconecta e conecta cabo de rede -> ssh root@192.168.2.15 -> WARNING ->  exit -> ssh-keygen -f... -> ssh root@192.168.2.15 -> "Warning: Permanently added..."
+Caso 2: Diretório não enc ontrado -> exit -> ssh-keygen -f... -> ssh root@192.168.2.15 -> "Warning: Permanently added..."
+ 
+Novo terminal, cd Documents/VX.X.X/Colibri..., mover arquivos
+[movefiles.sh terminal]
+cd Documents/VX.X.X/Colibri...
+./movefiles.sh
+[INSIRA O IP e dê um "s"]
+[Vai aparecer: can-bringup-service etc...]
+ 
+VOltar para o sudo minicom, iniciar novo script ./init
+[sudo minicom terminal]:
+cd /opt
+./init.sh
+[VAi aparecer: REmoved...]
+reboot
+ 
+VOltar para terminal do movefiles, passar agtech_app
+[movefiles terminal]:
+->
+scp agtech_app root@192.168.2.15:/opt/agtech_app/bin/
+ 
+Voltar para o terminal do sudo minicom, verificar se agtech_app passou mesmo:
+[sudo minicom terminal]:
+->
+cd /opt/agtech_app/bin
+ls
+ 
+ 
+Ainda no sudo minicom
+[sudo minicom terminal]:
+->
+cd / 
+chmod +x /opt/agtech_app/bin/agtech_app
+chmod +x /opt/*
+chmod +x /usr/bin/can-bringup.sh
+reboot
+ 
+=========================================
+ 
+2.2.0:
+ 
+[Não deixar o reboot concluir, aperta qualquer tecla].
+Inserir os comandos:
+setenv vidargs 'video=mxcfb0:dev=lcd,TDO07,if=RGB666 video=mxcfb1:off fbmem8' 
+saveenv 
+reset
+ 
+[Abrir uma nova aba]
+cd ~/Documents/embedded-linux-colibri/eject-hboard-0.3 
+scp zImage root@192.168.2.15:/media/mmcblk0p1 
+scp imx6dl-colibri-eval-v3.dtb root@192.168.2.15:/media/mmcblk0p1
+ 
+Finalizando, voltar para o terminal do sudo minicom:
+[sudo minicom terminal]:
+[APÓS REBOOT DO CHMOD +X]
+->
+root
+poweroff
+ 
+FIM.

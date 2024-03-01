@@ -1,0 +1,2 @@
+cd yScriptGravacaoColibri/Novos_Scripts/Scripts/
+sudo python3 1_Iniciando_automacao.py

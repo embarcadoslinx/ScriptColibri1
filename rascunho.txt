@@ -1,0 +1,99 @@
+breno@breno-Lenovo-ideapad-320-15IKB:~$ ssh root@192.168.2.15
+Warning: Permanently added '192.168.2.15' (ECDSA) to the list of known hosts.
+root@192.168.2.15's password: 
+
+Permission denied, please try again.
+root@192.168.2.15's password: 
+
+
+=======================
+
+CTRL C 
+DESCONECTA E CONECTA CABO DE REDE
+SSH ROOT@192
+EXIT
+SSH-KEYGEN
+SSH ROOT
+AÍ DÁ CERTO.
+
+========================
+
+
+import keyboard
+import abrir_nova_aba_terminal
+import abrir_terminal
+import time
+
+def main_automation():
+    abrir_terminal.funcao_abrir_terminal()
+    print('Terminal aberto.')
+    time.sleep(3)
+
+    abrir_nova_aba_terminal.funcao_abrir_nova_aba_terminal()
+    print('Primeira aba do terminal aberta!')
+    time.sleep(3)
+
+    abrir_nova_aba_terminal.funcao_abrir_nova_aba_terminal()
+    print('Segunda aba do terminal aberta!')
+    time.sleep(3)
+
+    abrir_nova_aba_terminal.funcao_abrir_nova_aba_terminal()
+    print('Terceira aba do terminal aberta!')
+    time.sleep(3)
+
+    abrir_nova_aba_terminal.funcao_abrir_nova_aba_terminal()
+    print('Quarta aba do terminal aberta!')
+    time.sleep(3)
+
+    abrir_nova_aba_terminal.funcao_abrir_nova_aba_terminal()
+    print('Quinta aba do terminal aberta!')
+    time.sleep(3)
+
+    abrir_nova_aba_terminal.funcao_abrir_nova_aba_terminal()
+    print('Script pronto para ser finalizado.')
+    time.sleep(2)
+
+# Função para verificar se a tecla "ESC" foi pressionada
+def emergency_stop(e):
+    if e.event_type == keyboard.KEY_DOWN and e.name == 'esc':
+        print("Botão de emergência pressionado. Encerrando o script.")
+        os._exit(0)
+
+# Adiciona o manipulador de eventos para a tecla "ESC"
+keyboard.hook(emergency_stop)
+
+try:
+    # Inicia a execução da automação
+    main_automation()
+
+except Exception as e:
+    print(f"Ocorreu um erro: {e}")
+
+finally:
+    # Remove o manipulador de eventos ao finalizar o script
+    keyboard.unhook_all()
+
+
+================
+
+
+    global emergency_pressed
+    for i in range(101):
+        print(i)
+        time.sleep(3)
+        # Verifica se o botão de emergência foi pressionado
+        if emergency_pressed:
+            print("Botão de emergência pressionado. Encerrando o script.")
+            break
+
+
+=========================
+
+xhost +local:$USER // pra fazer o display não dar aquele erro.
+
+comando para rodar: sudo python3 ./teste_system.py
+
+
+
+
+

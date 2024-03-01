@@ -1,0 +1,94 @@
+Colinha para instalar OS na Colibri
+ 
+1. Pegar o Notebook no armário (lembrar de pegar de pegar a caixa branca também).
+ 
+2. A placa certa é a mais nova escura, a fosca não funciona.
+ 
+3. Conecta o cabo UART e o cabo de rede apenas (cabo UART é o que fica na linha do cabo de rede).
+ 
+4. Conecta a Colibri na placa.
+ 
+5. Senha do notebook é: agtech2024
+ 
+6. Abrir o terminal (primeira aba) e rodar "sudo minicom".
+ 
+7. Aparece mensagem "Pressione CTRL A-Z blablabla", logo em seguida conectar cabo de energia na Placa.
+ 
+Obs: apertar logo qualquer tecla, se passar de uma parte chamada Loading Kernel, é porque deu ruim, então desconecta o cabo de alimentação e conecta de novo e faz de novo.
+ 
+8. No mesmo terminal do "sudo minicom" rodar "bmode usb".
+ 
+9. Logo em seguida trocar o cabo do barramento (X10 UART), coloca no usb do lado da Colibri.
+ 
+10. Abrir outra aba do terminal e rodar "lsusb".
+ 
+11. Acessar o diretório com cd Documents/V2.0.0/Colibri-iMX6_ToradexEasyInstaller_1.8-20182019/
+ 
+12. Em seguida rodar o comando: "./recovery-linux.sh"
+ 
+13. Agora vamos entrar em outro diretório, usar "cd .." pra voltar 1 pasta e em seguida dar "cd eject-hboard-0.3"
+ 
+14. Rodar o código "python3 -m http.server"
+ 
+15. Vai aparecer uma mensagem "Serving HTTP..." em seguida troca o barramento e volta pra posição original (cabo UART).
+ 
+16. Logo em seguida volta pro terminal do "sudo minicom", dá um ENTER e roda "ifconfig" pra puxar o IP da Colibri, ex: inet addr: "192.168.2.193".
+ 
+17. Abrir uma nova aba no terminal e rodar o "sudo vinagre ip".
+ 
+18. Vai abrir a tela do Toradex com vários pinguins, vai em "Feeds" e desmarca todos.
+ 
+19. Em seguida olhar o ip do notebook, só abrir uma nova aba e usar ifconfig, mas nesse caso é 192.168.3.149 (é bom confirmar o ip sempre).
+ 
+20. Volta pro Toradex Installer, após ter desmarcado todas as opções, vai no campo embaixo e escreve: "http://192.168.3.149:8000/image_list.json" e clica no + e vai em OK.
+ 
+21. Depois dá dois cliques no único pinguim que aparecer (Toradex blablabla Linux) e dá um YES.
+ 
+22. Aí você aguarda.
+ 
+23. Depois de tudo vai aparecer uma tela, clica em Reboot e depois fecha no X.
+ 
+24. Em seguida voltar pro terminal do "sudo minicom" e remover o cabo de energia da placa e conectar de novo.
+ 
+25. Vai carregar uma mensagem no terminal do Angstrom.
+ 
+26. Em seguida entra faz login com o "root".
+ 
+27. Logo depois acessa o documento wired.network pelo vi com o comando: "vi /etc/systemd/network/wired.network"
+ 
+28. Vai aparecer uns ~ e logo em seguida já aperta i, depois vai no documento .docx e copia o textinho [Match] [Name... blablabla], dá um ENTER após colar e em seguida dá ESC e escreve ":wq" e dá um ENTER.
+ 
+29. Em seguida rodar os comandos systemctl... systemctl... cd... mkdir.. ls blablabla.
+ 
+30. Depois disso, confirmada a criação da pasta "opt", abra um novo terminal e roda o SSH com o comando "ssh root@192.168.2.15"
+ 
+30. Vai aparecer uma mensagem de WARNING, você vai procurar por remove with: ssh-keygen -f "..." e vai copiar e colar em seguida no prompt do terminal.
+ 
+31. Aí roda de novo o comando "ssh root@192.168.2.15".
+ 
+32. Pode ser que aconteça de pedir senha, se isso acontecer dar "CTRL C", remover o cabo de rede da placa e conectar novamente, insere novamente o comando "ssh root@192.168.2.15", pode ser que apareça outro WARNING e em seguida você digita "exit", em seguida dá o comando do "ssh-keygen -f..." novamente, em seguida inserir o "ssh root@192.168.2.15" novamente, se tiver ido, vai aparece um Warning: Permanently added... (é um warning curtinho de 2 linhas).
+ 
+33. Pode ser que aconteça de aparecer que o diretório não foi encontrado (erro que o Marcelo me ajudou), basta dar um exit e colar de novo o "ssh-keygen -f...", depois vai dar certo, novamente, em seguida inserir o "ssh root@192.168.2.15" novamente, se tiver ido, vai aparece um Warning: Permanently added... (é um warning curtinho de 2 linhas).
+ 
+33. Em seguida abrir uma nova aba do terminal e abrir a pasta da Colibri com o comando "cd Documents/V2.0.0".
+ 
+34. Com a pasta da Colibri aberta, executa o script: "./movefiles.sh".
+35. Vai pedir o IP da Colibri, coloca.
+ 
+36. Dá um "s".
+ 
+37. Vai rodar o script do movefiles.sh, se der alguns erros, resolver.
+ 
+38. Depois vai aparecer uns nomes tipo "can-bringup.service" etc, significa que deu certo.
+ 
+39. Logo após, voltar para o terminal do "sudo minicom", entrar na pasta opt usando "cd /opt", em seguida rodar o script "./init.sh" (vai aparecer uma mensagem de Removed...), logo em seguida rodar o comando "reboot".
+ 
+40. Depois volta para o terminal do "movefiles.sh" (tecnicamente é a última aba), em seguida conferir se está mesmo na pasta Documents/V2.0.0, rodar o comando: "scp agtech_app root@192.168.2.15:/opt/agtech_app/bin/", vai aparecer um "100% blabla" depois.
+ 
+41. Voltar para a aba do terminal do "sudo minicom", entrar com o root e entrar no diretório do opt pra ver se deu certo envio do agtech_app, usando o comando: "cd /opt/agtech_app/bin/", em seguida dar um "ls" e ver se o arquivo "agtech_app" foi passado corretamente está lá.
+ 
+42. Em seguida NÃO DÁ REBOOT, usa "cd /" e executa os comandos "chmod + etc...".
+ 
+43. Depois do reboot, entra com o root e dá um poweroff.
+ 
+44. FIM.
